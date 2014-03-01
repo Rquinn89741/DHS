@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ArticleActivity" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Students to go to science fair, or some other such title."
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:layout_marginLeft="5dp"
+         android:layout_marginRight="10dp"
+           android:layout_marginBottom="5dp" />
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/title"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/article"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/seperator"
+        android:layout_marginTop="13dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+        android:text="Article text will go here once articles exist."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
