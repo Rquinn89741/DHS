@@ -14,6 +14,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -43,7 +46,7 @@ public class MainActivity extends Activity {
 
 		try {
 
-			new DownloadFilesTask().execute(new URL("http://random.net"));
+			new DownloadFilesTask(this).execute(new URL("http://random.net"));
 
 		} catch (Exception e) {
 		}
@@ -54,8 +57,6 @@ public class MainActivity extends Activity {
 		article = new Intent(this, ArticleActivity.class);
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, titles);
-
-		;
 
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(itemClickedHandler);
@@ -77,9 +78,13 @@ public class MainActivity extends Activity {
 				long id) {
 			article.putExtra("title", titles.get(position));
 			article.putExtra("article", articles.get(position));
-			// if (links.get(position) != null)
-			// article.putExtra("imageLinks", links.get(position));
+			article.putStringArrayListExtra("imageLinks", links.get(position));
+			for (int l = 0; l < links.get(position).size(); l++) {
+				article.putExtra(String.valueOf(l), links.get(position).get(l));
 
+			}
+			article.putExtra("amountOfLinks", links.get(position).size());
+			Log.d("channel1", links.toString());
 			startActivity(article);
 		}
 	};
@@ -96,10 +101,22 @@ public class MainActivity extends Activity {
 
 	private class DownloadFilesTask extends AsyncTask<URL, String, Long> {
 
+		ProgressBar spinner;
+		TextView loading;
+		Context context;
+
+		public DownloadFilesTask(Context context) {
+			this.context = context;
+			this.loading = loading;
+
+		}
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 
+			// spinner.setVisibility(View.VISIBLE);
+			// spinner.setVisibility(View.GONE);
 			// get the URL's to
 
 		}
@@ -170,14 +187,14 @@ public class MainActivity extends Activity {
 			}
 			if (articles.get(0) != null)
 				Log.d("data", articles.get(0));
-			adapter.notifyDataSetChanged();
+
 		}
 
 		@Override
 		protected void onPostExecute(Long result) {
-			// at the end
-			Log.d("data", articles.toString());
-			loaded = true;
+			// at the end of downloading articles
+			adapter.notifyDataSetChanged();
+
 		}
 
 		protected String getArticle(Document doc) {
